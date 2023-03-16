@@ -248,7 +248,7 @@ header {
     text-decoration: underline;
 }
 
-.btn {
+#btnSignUp, #btnSignIn{
     width: 100%;
     height: 45px;
     background: #162938;
