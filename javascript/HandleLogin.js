@@ -1,8 +1,8 @@
 //-------------------------------------------------LOGIN HANDLE-------------------------------------------------------//
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
-import { getDatabase } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+import { getDatabase, set, ref, update } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged  } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -25,19 +25,25 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth();
-
+console.log(database);
 btnSignUp.addEventListener('click', (e) => {
-    alert('Sign up clicked !');
+    console.log('btnSignUp clicked!');
     //Get email, username and password
     var email = document.getElementById('email').value;
     var username = document.getElementById('username').value;
     var password = document.getElementById('password').value;
-    
+
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            // ...
+
+            set(ref(database, 'users/' + user.uid), {
+                username: username,
+                email: email,
+
+            })
+
             alert('user created!');
         })
         .catch((error) => {
@@ -47,3 +53,31 @@ btnSignUp.addEventListener('click', (e) => {
             alert(errorMessage);
         });
 });
+
+btnSignIn.addEventListener('click', (e) => {
+    console.log('btnSignIn clicked!');
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+    signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+
+            const dt = new Date();
+            update(ref(database, 'users/' + user.uid), {
+                last_login: dt,
+            })
+            alert('User logged in!');
+            AccessToCameraPage();
+
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert(errorMessage);
+        });
+});
+
+function AccessToCameraPage() {
+    window.location.assign('AuthPage.html');
+}

@@ -12,7 +12,7 @@
 <body>
     <video id="webCam" autoplay playsinlne width="800" height="600"></video>
     <canvas id="canvas"></canvas>
-    
+    <button id="button">Click here to go to main page directly</button>
 
 
 <script>
@@ -20,6 +20,11 @@
     const canvasElement = document.getElementById("canvas");
     const webcam = new Webcam(webCamElement, "user", canvasElement);
     webcam.start();
+
+    var btn = document.getElementById('button');
+    button.addEventListener('click', (e) => {
+        window.location.assign('MainPage.html');
+    })
 
 </script>
 </body>
