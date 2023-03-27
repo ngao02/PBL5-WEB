@@ -23,4 +23,7 @@ urlpatterns = [
     re_path(r'^logout/',views.logout, name='logout'),
     re_path(r'^signUp/',views.signUp,name='signUp'),
     re_path(r'^postsignUp/',views.postsignUp,name='postsignUp'),
+    re_path(r'^setting/',views.setting,name='setting'),
+    re_path(r'^postUpdate/',views.postUpdate,name='postUpdate'),
+    re_path(r'^postCancel/',views.postCancel,name='postCancel'),
 ]
